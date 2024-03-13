@@ -1,0 +1,6 @@
+# create_namespace_playbook.yml
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - import_role:
+        name: createProject
