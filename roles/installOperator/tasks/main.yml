@@ -23,7 +23,7 @@
         channel: "{{ channel_name }}"
         name: "{{ operator_name }}"
         source: redhat-operators
-        sourceNamespace: redhat-operators
+        sourceNamespace: openshift-marketplace
         startingCSV: "{{ starting_csv }}"
         installPlanApproval: Automatic
 
