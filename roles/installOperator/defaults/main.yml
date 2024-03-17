@@ -1,0 +1,4 @@
+# defaults/main.yml
+operator_name: "example-operator"
+channel_name: "stable"
+starting_csv: "example-operator.v1.0.0"

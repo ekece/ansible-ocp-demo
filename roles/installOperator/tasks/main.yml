@@ -1,0 +1,34 @@
+# tasks/main.yml
+---
+- name: Ensure OperatorGroup exists
+  k8s:
+    state: present
+    definition:
+      apiVersion: operators.coreos.com/v1
+      kind: OperatorGroup
+      metadata:
+        name: "{{ operator_name }}-operatorgroup"
+        namespace: "{{ operator_namespace }}"
+
+- name: Create Subscription for the Operator
+  k8s:
+    state: present
+    definition:
+      apiVersion: operators.coreos.com/v1alpha1
+      kind: Subscription
+      metadata:
+        name: "{{ operator_name }}"
+        namespace: "{{ operator_namespace }}"
+      spec:
+        channel: "{{ channel_name }}"
+        name: "{{ operator_name }}"
+        source: redhat-operators
+        sourceNamespace: redhat-operators
+        startingCSV: "{{ starting_csv }}"
+        installPlanApproval: Automatic
+
+# If you have CRDs defined in templates, add tasks to apply them here
+# - name: Apply Custom Resource Definition
+#   k8s:
+#     state: present
+#     definition: "{{ lookup('template', 'templates/custom_resource.yml.j2') }}"
