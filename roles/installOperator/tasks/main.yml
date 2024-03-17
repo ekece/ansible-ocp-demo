@@ -9,6 +9,9 @@
       metadata:
         name: "{{ operator_name }}-operatorgroup"
         namespace: "{{ operator_namespace }}"
+      spec:
+        targetNamespaces:
+        - "{{ operator_namespace }}"
 
 - name: Create Subscription for the Operator
   k8s:
