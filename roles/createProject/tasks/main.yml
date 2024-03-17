@@ -6,6 +6,10 @@
     kind: Namespace
     name: "{{ namespace_name }}"
     state: present
+    definition:
+      metadata:
+        annotations:
+          openshift.io/description: "{{ description }}"
 
 - name: Create RoleBinding for edit permissions
   community.kubernetes.k8s:
