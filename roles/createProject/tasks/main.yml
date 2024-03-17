@@ -1,18 +1,15 @@
 # tasks/main.yml
 ---
 - name: Create a namespace
-  community.kubernetes.k8s:
+  kubernetes.core:
     api_version: v1
     kind: Namespace
     name: "{{ namespace_name }}"
     state: present
-    definition:
-      metadata:
-        annotations:
-          openshift.io/description: "{{ description }}"
+
 
 - name: Create RoleBinding for edit permissions
-  community.kubernetes.k8s:
+  kubernetes.core:
     api_version: rbac.authorization.k8s.io/v1
     kind: RoleBinding
     namespace: "{{ namespace_name }}"
