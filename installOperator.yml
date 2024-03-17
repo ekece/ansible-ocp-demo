@@ -1,0 +1,9 @@
+- hosts: localhost
+  tasks:
+    - import_role:
+        name: operator_installer
+      vars:
+        operator_name: "ansible-automation-platform-operator"
+        channel_name: "stable-2.4-cluster-scoped"
+        starting_csv: "aap-operator.v2.4.0-0.1708975279"
+        operator_namespace: "aap"
