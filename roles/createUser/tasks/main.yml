@@ -1,0 +1,33 @@
+# tasks/main.yml
+- name: Retrieve the current htpasswd file from the secret
+  command: oc get secret htpass-secret -ojsonpath={.data.htpasswd} -n openshift-config | base64 --decode
+  register: htpasswd_content
+  ignore_errors: true
+
+- name: Write the htpasswd content to a file
+  copy:
+    content: "{{ htpasswd_content.stdout }}"
+    dest: "./users.htpasswd"
+  when: htpasswd_content.rc == 0
+
+- name: Create an empty htpasswd file if it does not exist
+  file:
+    path: "./users.htpasswd"
+    state: touch
+  when: htpasswd_content.rc != 0
+
+- name: Add or update the user in the htpasswd file
+  community.general.htpasswd:
+    path: "./users.htpasswd"
+    name: "{{ username }}"
+    password: "{{ password }}"
+    crypt_scheme: bcrypt
+
+- name: Check if htpass-secret exists
+  command: oc get secret htpass-secret -n openshift-config
+  register: htpass_secret_exists
+  ignore_errors: true
+
+- name: Update or create the htpass-secret with the new htpasswd file
+  command: oc create secret generic htpass-secret --from-file=htpasswd=./users.htpasswd -n openshift-config --dry-run=client -o yaml | oc apply -f -
+  when: htpass_secret_exists.rc == 0
