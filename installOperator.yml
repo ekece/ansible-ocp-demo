@@ -1,7 +1,7 @@
 - hosts: localhost
   tasks:
     - import_role:
-        name: operator_installer
+        name: installOperator
       vars:
         operator_name: "ansible-automation-platform-operator"
         channel_name: "stable-2.4-cluster-scoped"
