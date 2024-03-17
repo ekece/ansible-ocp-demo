@@ -1,7 +1,7 @@
 # tasks/main.yml
 ---
 - name: Create a namespace
-  kubernetes.core:
+  kkubernetes.core.k8s:
     api_version: v1
     kind: Namespace
     name: "{{ namespace_name }}"
@@ -9,7 +9,7 @@
 
 
 - name: Create RoleBinding for edit permissions
-  kubernetes.core:
+  kubernetes.core.k8s:
     api_version: rbac.authorization.k8s.io/v1
     kind: RoleBinding
     namespace: "{{ namespace_name }}"
